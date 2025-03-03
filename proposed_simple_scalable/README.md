@@ -58,19 +58,15 @@ Có rất nhiều cách để bạn tổ chức thư mục trong dự án, vậy
 
 Trong đó:
 
-* `components`: là thư mục chứa các thành phần như: `painter` bạn tự custom, mixin, hoặc các widget, ...
+* `components`: là thư mục chứa các thành phần như: `painter` bạn tự custom, mixin, ...
 
-  ❔ Có thể bạn sẽ thắc mắc tại sao lại có widget ở trong thư mục này, trong khi đó, thư mục `widgets` đã ở trong thư mục `common` rồi. Lý do sẽ được giải thích bằng các trường hợp cụ thể dưới đây:
-
-    - Các widget này được custom để sử dụng với thư viện bên ngoài. Ví dụ như trong app của bạn sử dụng thư viện `flutter_slidable`, nhưng các `ActionPane` được cung cấp sẵn khác với thiết kế,  bạn phải tự custom lại cho nó giống. Hoặc cũng có thể bạn muốn custom lại để phải truyền ít tham số hơn.
-
-    - Ví dụ app của bạn sử dụng `bloc` làm state management và các widget này sẽ gọi/truy cập đến bloc/cubit cụ thể (ví dụ như authentication_bloc, ...).
+    - Ví dụ như trong app của bạn sử dụng thư viện `flutter_slidable`, nhưng các `ActionPane` được cung cấp sẵn khác với thiết kế,  bạn phải tự custom lại cho nó giống. Hoặc cũng có thể bạn muốn custom lại để phải truyền ít tham số hơn.
 
 * `models`: thư mục này chứa các model (các đối tượng được mô hình hóa) được dùng lại nhiều lần.
 
-* `widgets`: thư mục này chứa các widget được custom riêng từ các widget nền tảng của flutter như: material, cupertino, ... Các widget này có thể là các button có chung style, các thành phần form, ...
+* `widgets`: thư mục này chứa các widget được custom từ các thư viện nền tảng của Flutter (widgets, material, cupertino) hoặc từ thư viện bên ngoài.
 
-> Đừng ngại ngần hay lười việc đưa các widget này vào trong một thư mục con nếu chúng có chung một kiểu (ví dụ như button).
+> Nhóm các widget này vào trong một thư mục con nếu chúng có chung một kiểu (ví dụ như button).
 
 Tùy thuộc vào pattern, architecture mà bạn lựa chọn sử dụng cho việc kết nối với dữ liệu bên ngoài (qua api, socket, ...) mà bạn có thể thêm các thư mục `repositories/repos`/`services` (đối với provider provider architecture) để chứa các repo/service dùng chung trong dự án.
 
@@ -112,11 +108,13 @@ Tùy thuộc vào state management mà bạn lựa chọn sử dụng, bạn có
     Vậy `DropdownButton` có thể coi là một thành phần form và thêm `BoxDecoration` vào đây được không? 
   </summary>
   
-  Có. Tuy không có tham số `validator`, nhưng trong một số trường hợp, ta vẫn có thể coi nó là một thành phần của form.
+  Có.
+
+  Trong 1 form có thể có ô nhập text, có radio button để chọn một giá trị, có checkbox để chọn nhiều, ... nên có thể coi một số các widget sau là các thành phần form: DropdownButton, Checkbox, Radio, Slider, RangeSlider, ...
 
   </details>
 
-  - `app_gap.dart`: nếu như bạn hay dùng `SizedBox`, `Gap` (nếu dùng thư viện `gap`) để căn khoảng cách giữa các widget.
+  - `app_gap.dart`: khai báo các `SizedBox`, `Gap` (nếu dùng thư viện `gap`) để căn khoảng cách giữa các widget.
 
   - `app_padding.dart`: khai báo các `EdgeInsets`, `Pad` (nếu dùng thư viện `assorted_layout_widgets`).
 
@@ -143,9 +141,17 @@ Tùy thuộc vào state management mà bạn lựa chọn sử dụng, bạn có
 
   Tất nhiên, việc nhập trực tiếp con số vào cũng không phải là cách tốt nhất. Nếu thiết kế có Guide UI chuẩn, bạn nên lựa chọn những giá trị phù hợp để định nghĩa. Ví dụ với widget Grid, khoảng cách giữa các item trên điện thoại và máy tính bảng khác nhau, và tất cả các màn hình/một phần giao diện có sử dụng Grid đều có chung 1 con số như vậy. Hay đơn giản hơn, tất cả/phần lớn các  AppBar đều có chung chiều cao. Vậy thì bạn có thể khai báo các biến định nghĩa các con số này. Tất cả sẽ được đặt trong một file là `app_dimens.dart`.
 
-Ngoài 2 thư mục con đã nêu trên (`constants` và `theme`), trong thư mục này (`core`) còn có thể chứa các widget, các kiểu dữ liệu do bạn tự định nghĩa, các thành phần sẽ làm nên nền tảng để bạn xây dựng/sử dụng sau này.
+Ngoài 2 thư mục con đã nêu trên (`constants` và `theme`), trong thư mục này còn có thể chứa các widget, các kiểu dữ liệu do bạn tự định nghĩa, các thành phần sẽ làm nên nền tảng để bạn xây dựng/sử dụng sau này.
 
-Cụ thể về phần widget, các widget này là các widget do bạn tự viết, sử dụng Element tree, RenderObject tree, không có truy cập đến một bloc/provider/... (state management) cụ thể ở bên ngoài (ví dụ như authentication_bloc, ...).
+* `widgets`
+
+Để quyết định có đưa 1 widget vào trong thư mục này không thì nó cần thoả mãn 2 trong 3 tiêu chí dưới đây:
+
+  1. Đây là 1 widget cơ bản mà mọi app đều có. Ví dụ như button, text field, … được build from scrap, có thể “chạm đến” các layer bên dưới (Element, RenderObject) và/hoặc không dùng các widgets của Flutter.
+
+  2. Các widget này sẽ style itself theo cấu hình mà nó nhận. Cấu hình ở đây ví dụ như là text style, padding, gap, …
+
+  3. Các widget này không sử dụng cho một module cụ thể hoặc không chứa logic của 1 chức năng.
 
 ## `data`
 
