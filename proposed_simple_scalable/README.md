@@ -145,13 +145,13 @@ Ngoài 2 thư mục con đã nêu trên (`constants` và `theme`), trong thư m�
 
 * `widgets`
 
-Để quyết định có đưa 1 widget vào trong thư mục này không thì nó cần thoả mãn 2 trong 3 tiêu chí dưới đây:
+Để quyết định có đưa 1 widget vào trong thư mục này không thì nó cần thoả mãn tối thiểu 2 tiêu chí đầu trong 3 tiêu chí dưới đây:
 
-  1. Đây là 1 widget cơ bản mà mọi app đều có. Ví dụ như button, text field, … được build from scrap, có thể “chạm đến” các layer bên dưới (Element, RenderObject) và/hoặc không dùng các widgets của Flutter.
+  1. Các widget này không sử dụng cho một module cụ thể hoặc không chứa logic của 1 chức năng.
 
-  2. Các widget này sẽ style itself theo cấu hình mà nó nhận. Cấu hình ở đây ví dụ như là text style, padding, gap, …
+  2. Đây là 1 widget cơ bản mà mọi app đều có. Ví dụ như button, text field, … được build from scrap, có thể “chạm đến” các layer bên dưới (Element, RenderObject) và/hoặc không dùng các widgets của Flutter.
 
-  3. Các widget này không sử dụng cho một module cụ thể hoặc không chứa logic của 1 chức năng.
+  3. Các widget này sẽ style itself theo cấu hình mà nó nhận. Cấu hình ở đây ví dụ như là text style, padding, gap, …
 
 ## `data`
 
